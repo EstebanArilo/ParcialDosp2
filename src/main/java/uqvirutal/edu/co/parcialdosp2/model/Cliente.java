@@ -1,24 +1,21 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
 public class Cliente {
-    private String identificacion;
-    private String nombre;
-    private String telefono;
-    private String correo;
 
-    public Cliente(String identificacion, String nombre, String telefono, String correo) {
-        this.identificacion = identificacion;
-        this.nombre = nombre;
-        this.telefono = telefono;
+    private final String documento;
+    private final String nombreCompleto;
+    private final String correo;
+
+    public Cliente(String documento, String nombreCompleto, String correo) {
+        this.documento = documento;
+        this.nombreCompleto = nombreCompleto;
         this.correo = correo;
     }
 
-    public String getIdentificacion() { return identificacion; }
-    public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getDocumento() { return documento; }
+    public String getNombreCompleto() { return nombreCompleto; }
     public String getCorreo() { return correo; }
-    public void setCorreo(String correo) { this.correo = correo; }
+
+    @Override
+    public String toString() { return nombreCompleto + " (" + documento + ")"; }
 }

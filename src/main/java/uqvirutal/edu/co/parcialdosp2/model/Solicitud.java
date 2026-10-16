@@ -1,219 +1,120 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Solicitud {
 
-    private int codigo;
-    private Cliente cliente;
-    private List<Servicio> servicios;
-    private Tecnico tecnico;
-    private LocalDateTime fecha;
-    private LocalDateTime fechaProgramada;
-    private String observaciones;
-    private PrioridadSolicitud prioridad;
-    private String estado;
+    private final String codigo;
+    private final LocalDateTime fechaCreacion;
+    private final Cliente cliente;
+    private final List<Servicio> elementosContratados;
+
+    // Datos opcionales (pueden ser null)
+    private final LocalDate fechaProgramada;
+    private final String observaciones;
+    private final PrioridadSolicitud prioridad;
+
+    private EstadoSolicitud estado = EstadoSolicitud.PENDIENTE;
+    private double costoDesplazamiento;
 
     private Solicitud(Builder builder) {
         this.codigo = builder.codigo;
+        this.fechaCreacion = LocalDateTime.now();
         this.cliente = builder.cliente;
-        this.servicios = new ArrayList<>(builder.servicios);
-        this.tecnico = builder.tecnico;
-        this.fecha = builder.fecha;
+        this.elementosContratados = new ArrayList<>(builder.elementos);
         this.fechaProgramada = builder.fechaProgramada;
         this.observaciones = builder.observaciones;
         this.prioridad = builder.prioridad;
-        this.estado = builder.estado;
     }
 
-    // Getters
+    public String getCodigo() { return codigo; }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public Cliente getCliente() { return cliente; }
 
-    public int getCodigo() {
-        return codigo;
+    public List<Servicio> getElementosContratados() {
+        return new ArrayList<>(elementosContratados);
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public List<Servicio> getServicios() {
-        return new ArrayList<>(servicios);
-    }
-
-    public Tecnico getTecnico() {
-        return tecnico;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public LocalDateTime getFechaProgramada() {
-        return fechaProgramada;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public PrioridadSolicitud getPrioridad() {
-        return prioridad;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    // Setters
-
-    public void setTecnico(Tecnico tecnico) {
-        this.tecnico = tecnico;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public void setFechaProgramada(LocalDateTime fechaProgramada) {
-        this.fechaProgramada = fechaProgramada;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public void setPrioridad(PrioridadSolicitud prioridad) {
-        if (prioridad == null) {
-            throw new IllegalArgumentException(
-                    "La prioridad no puede ser nula"
-            );
-        }
-        this.prioridad = prioridad;
-    }
-
-    // Agregar un servicio después de crear la solicitud
-
-    public void agregarServicio(Servicio servicio) {
-        if (servicio == null) {
-            throw new IllegalArgumentException(
-                    "El servicio no puede ser nulo"
-            );
-        }
-
-        if (servicios.contains(servicio)) {
-            throw new IllegalArgumentException(
-                    "Este elemento ya fue agregado a la solicitud"
-            );
-        }
-
-        servicios.add(servicio);
-    }
-
-    // Eliminar un servicio de la solicitud
-
-    public boolean eliminarServicio(Servicio servicio) {
-        return servicios.remove(servicio);
-    }
-
-    // Calcular el costo de todos los elementos contratados
+    public LocalDate getFechaProgramada() { return fechaProgramada; }
+    public String getObservaciones() { return observaciones; }
+    public PrioridadSolicitud getPrioridad() { return prioridad; }
+    public EstadoSolicitud getEstado() { return estado; }
+    public double getCostoDesplazamiento() { return costoDesplazamiento; }
 
     public double calcularCostoServicios() {
         double total = 0;
-
-        for (Servicio servicio : servicios) {
-            total += servicio.calcularCosto();
+        for (Servicio elemento : elementosContratados) {
+            total += elemento.calcularCosto();
         }
-
         return total;
     }
 
-    // Calcular el costo total de la solicitud
-
     public double calcularCostoTotal() {
-        double total = calcularCostoServicios();
+        return calcularCostoServicios() + costoDesplazamiento;
+    }
 
-        if (tecnico != null) {
-            total += tecnico.getTarifa();
+    public List<Especialidad> getEspecialidadesPresenciales() {
+        List<Especialidad> especialidades = new ArrayList<>();
+        for (Servicio elemento : elementosContratados) {
+            Especialidad.agregarSinRepetir(especialidades, elemento.getEspecialidadesPresenciales());
         }
+        return especialidades;
+    }
 
-        return total;
+    public boolean requierePresencial() {
+        return !getEspecialidadesPresenciales().isEmpty();
+    }
+
+    // Solo TechSolutions confirma, después de verificar los técnicos (mismo paquete)
+    void confirmar(double costoDesplazamiento) {
+        this.costoDesplazamiento = costoDesplazamiento;
+        this.estado = EstadoSolicitud.CONFIRMADA;
+    }
+
+    @Override
+    public String toString() {
+        return codigo + " - " + cliente.getNombreCompleto() + " - " + estado;
     }
 
     // Patrón Builder
-
     public static class Builder {
 
-        private int codigo;
-        private Cliente cliente;
-        private List<Servicio> servicios;
-        private Tecnico tecnico;
-        private LocalDateTime fecha;
-        private LocalDateTime fechaProgramada;
+        private final String codigo;
+        private final Cliente cliente;
+        private final List<Servicio> elementos = new ArrayList<>();
+        private final List<String> errores = new ArrayList<>();
+        private LocalDate fechaProgramada;
         private String observaciones;
         private PrioridadSolicitud prioridad;
-        private String estado;
 
-        // Constructor para solicitudes con varios servicios
-
-        public Builder(int codigo, Cliente cliente) {
+        public Builder(String codigo, Cliente cliente) {
             this.codigo = codigo;
             this.cliente = cliente;
-            this.servicios = new ArrayList<>();
-            this.fecha = LocalDateTime.now();
-            this.prioridad = PrioridadSolicitud.MEDIA;
-            this.estado = "Pendiente";
         }
 
-        // Constructor compatible con el código anterior
-
-        public Builder(
-                int codigo,
-                Cliente cliente,
-                Servicio servicio
-        ) {
-            this(codigo, cliente);
-            agregarServicio(servicio);
-        }
-
+        // Si el elemento es nulo o está repetido no se agrega; el error se informa en build()
         public Builder agregarServicio(Servicio servicio) {
             if (servicio == null) {
-                throw new IllegalArgumentException(
-                        "El servicio no puede ser nulo"
-                );
+                errores.add("El elemento a contratar es obligatorio.");
+            } else if (elementos.contains(servicio)) {
+                errores.add("'" + servicio.getNombre()
+                        + "' ya fue agregado a la solicitud (evita cobros duplicados).");
+            } else {
+                elementos.add(servicio);
             }
-
-            if (servicios.contains(servicio)) {
-                throw new IllegalArgumentException(
-                        "Este elemento ya fue agregado a la solicitud"
-                );
-            }
-
-            servicios.add(servicio);
             return this;
         }
 
-        public Builder tecnico(Tecnico tecnico) {
-            this.tecnico = tecnico;
-            return this;
-        }
-
-        public Builder fecha(LocalDateTime fecha) {
-            this.fecha = fecha;
-            return this;
-        }
-
-        public Builder fechaProgramada(
-                LocalDateTime fechaProgramada
-        ) {
+        public Builder fechaProgramada(LocalDate fechaProgramada) {
             this.fechaProgramada = fechaProgramada;
             return this;
         }
 
         public Builder observaciones(String observaciones) {
-            this.observaciones = observaciones;
+            this.observaciones = (observaciones == null || observaciones.isBlank()) ? null : observaciones.trim();
             return this;
         }
 
@@ -222,31 +123,18 @@ public class Solicitud {
             return this;
         }
 
-        public Builder estado(String estado) {
-            this.estado = estado;
-            return this;
-        }
-
-        public Solicitud build() {
-            if (cliente == null) {
-                throw new IllegalStateException(
-                        "La solicitud requiere un cliente"
-                );
+        public Resultado<Solicitud> build() {
+            if (!errores.isEmpty()) {
+                return Resultado.error(errores.get(0));
             }
-
-            if (servicios.isEmpty()) {
-                throw new IllegalStateException(
-                        "La solicitud debe contener al menos un servicio"
-                );
+            if (elementos.isEmpty()) {
+                return Resultado.error(
+                        "La solicitud debe incluir al menos un servicio, servicio personalizado o paquete.");
             }
-
-            if (prioridad == null) {
-                throw new IllegalStateException(
-                        "La solicitud requiere una prioridad"
-                );
+            if (fechaProgramada != null && fechaProgramada.isBefore(LocalDate.now())) {
+                return Resultado.error("La fecha programada no puede estar en el pasado.");
             }
-
-            return new Solicitud(this);
+            return Resultado.exito(new Solicitud(this));
         }
     }
 }

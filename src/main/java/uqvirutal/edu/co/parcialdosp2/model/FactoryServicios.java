@@ -1,9 +1,10 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
 public abstract class FactoryServicios {
-    public abstract Servicio crearServicio();
 
-    public Servicio crear() {
-        return crearServicio();
+    protected abstract ServicioBase crearServicio(String codigo);
+
+    public ServicioBase crear(String codigo) {
+        return crearServicio(codigo);
     }
 }

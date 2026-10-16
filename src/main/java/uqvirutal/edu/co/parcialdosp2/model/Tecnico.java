@@ -1,28 +1,30 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
 public class Tecnico {
-    private String identificacion;
-    private String nombre;
-    private String especialidad;
-    private double tarifa;
 
-    public Tecnico(String identificacion, String nombre, String especialidad, double tarifa) {
-        this.identificacion = identificacion;
-        this.nombre = nombre;
+    private final String id;
+    private final Especialidad especialidad;
+    private final DisponibilidadTecnico disponibilidad;
+    private final double costoDesplazamiento;
+
+    public Tecnico(String id, Especialidad especialidad, DisponibilidadTecnico disponibilidad,
+                   double costoDesplazamiento) {
+        this.id = id;
         this.especialidad = especialidad;
-        setTarifa(tarifa);
+        this.disponibilidad = disponibilidad;
+        this.costoDesplazamiento = costoDesplazamiento;
     }
 
-    public String getIdentificacion() { return identificacion; }
-    public void setIdentificacion(String identificacion) { this.identificacion = identificacion; }
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getEspecialidad() { return especialidad; }
-    public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
-    public double getTarifa() { return tarifa; }
+    public String getId() { return id; }
+    public Especialidad getEspecialidad() { return especialidad; }
+    public DisponibilidadTecnico getDisponibilidad() { return disponibilidad; }
+    public boolean isDisponible() { return disponibilidad == DisponibilidadTecnico.DISPONIBLE; }
+    public double getCostoDesplazamiento() { return costoDesplazamiento; }
 
-    public void setTarifa(double tarifa) {
-        if (tarifa < 0) throw new IllegalArgumentException("Tarifa negativa");
-        this.tarifa = tarifa;
+    @Override
+    public String toString() {
+        return isDisponible()
+                ? id + " (" + especialidad + ", desplazamiento $" + String.format("%,.0f", costoDesplazamiento) + ")"
+                : "Sin técnico disponible para " + especialidad;
     }
 }

@@ -1,52 +1,50 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class ServicioBase implements Servicio {
+public abstract class ServicioBase implements Servicio {
 
-    private TipoServicio tipo;
-    private String descripcion;
+    private final String codigo;
+    private final TipoServicio tipo;
+    private final String descripcion;
 
-    public ServicioBase(TipoServicio tipo, String descripcion) {
-        if (tipo == null) {
-            throw new IllegalArgumentException(
-                    "El tipo de servicio es obligatorio"
-            );
-        }
-
+    protected ServicioBase(String codigo, TipoServicio tipo, String descripcion) {
+        this.codigo = codigo;
         this.tipo = tipo;
-        this.descripcion = descripcion;
+        this.descripcion = descripcion == null ? "" : descripcion;
     }
 
-    public TipoServicio getTipo() {
-        return tipo;
+    public TipoServicio getTipo() { return tipo; }
+
+    public abstract Especialidad getEspecialidad();
+    public abstract String getCondiciones();
+
+    public boolean requierePresencialPorNaturaleza() { return false; }
+
+    @Override public String getCodigo() { return codigo; }
+    @Override public String getNombre() { return tipo.getNombre(); }
+    @Override public String getDescripcion() { return descripcion; }
+    @Override public double getCostoBase() { return tipo.getCostoBase(); }
+    @Override public double getIncrementos() { return 0; }
+
+    @Override
+    public List<Especialidad> getEspecialidades() {
+        List<Especialidad> especialidades = new ArrayList<>();
+        especialidades.add(getEspecialidad());
+        return especialidades;
     }
 
-    public void setTipo(TipoServicio tipo) {
-        if (tipo == null) {
-            throw new IllegalArgumentException(
-                    "El tipo de servicio es obligatorio"
-            );
+    @Override
+    public List<Especialidad> getEspecialidadesPresenciales() {
+        if (requierePresencialPorNaturaleza()) {
+            return getEspecialidades();
         }
-
-        this.tipo = tipo;
+        return new ArrayList<>();
     }
 
     @Override
-    public String getNombre() {
-        return tipo.name().replace('_', ' ');
-    }
-
-    @Override
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    @Override
-    public double calcularCosto() {
-        return tipo.getCostoBase();
+    public String toString() {
+        return codigo + " - " + getNombre() + " ($" + String.format("%,.0f", getCostoBase()) + ")";
     }
 }
