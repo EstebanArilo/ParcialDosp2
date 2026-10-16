@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="600.0" prefWidth="750.0" spacing="12.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/17.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uqvirutal.edu.co.parcialdosp2.viewController.SolicitudViewController">
+
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <children>
+        <!-- Encabezado de la Vista -->
+        <VBox alignment="CENTER" prefHeight="50.0" prefWidth="710.0" style="-fx-background-color: #1e293b; -fx-background-radius: 8px; -fx-padding: 10px;">
+            <children>
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" text="Registro de Solicitudes (Patrón Builder)" />
+            </children>
+        </VBox>
+
+        <!-- Panel de Formulario para Registrar Solicitud -->
+        <VBox spacing="8.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8px; -fx-padding: 12px; -fx-border-color: #cbd5e1; -fx-border-radius: 8px;">
+            <children>
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #0284c7; -fx-font-size: 14px;" text="Datos de la Solicitud y Cliente" />
+
+                <HBox spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtCodigoSolicitud" promptText="Código de Solicitud" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCedulaCliente" promptText="Cédula del Cliente" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtNombreCliente" promptText="Nombre Completo del Cliente" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCorreoCliente" promptText="Correo Electrónico" HBox.hgrow="ALWAYS" />
+                    </children>
+                </HBox>
+
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <children>
+                        <ComboBox fx:id="cmbServicios" promptText="Seleccionar Servicio" prefWidth="220.0" />
+                        <ComboBox fx:id="cmbPrioridad" promptText="Seleccionar Prioridad" prefWidth="220.0" />
+                        <Button minHeight="32.0" onAction="#onRegistrarSolicitud" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="📋 Registrar Solicitud" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Tabla de Solicitudes Registradas -->
+        <TableView fx:id="tblSolicitudes" prefHeight="180.0" prefWidth="710.0" style="-fx-background-radius: 5px;">
+            <columns>
+                <TableColumn fx:id="colCodigo" prefWidth="120.0" text="Código" />
+                <TableColumn fx:id="colCliente" prefWidth="220.0" text="Cliente" />
+                <TableColumn fx:id="colServicio" prefWidth="200.0" text="Estado" />
+                <TableColumn fx:id="colPrioridad" prefWidth="168.0" text="Prioridad" />
+            </columns>
+        </TableView>
+
+        <!-- Botón Volver al Menú Principal -->
+        <HBox alignment="CENTER_LEFT">
+            <children>
+                <Button minHeight="35.0" minWidth="100.0" onAction="#onVolver" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="⬅ Volver" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
