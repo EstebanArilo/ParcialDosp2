@@ -13,7 +13,6 @@ public class TecnicoController {
         this.techSolutions = TechSolutions.getInstancia();
     }
 
-    // Consultar un técnico a través del proveedor según una especialidad requerida
     public Tecnico consultarTecnicoPorEspecialidad(ProveedorTecnicos proveedor, Especialidad especialidad) {
         if (proveedor != null && especialidad != null) {
             return proveedor.consultarTecnico(especialidad);
@@ -21,7 +20,6 @@ public class TecnicoController {
         return null;
     }
 
-    // Calcular el costo total de una solicitud (servicios + desplazamiento)
     public double calcularCostoTotalSolicitud(Solicitud solicitud) {
         if (solicitud != null) {
             return solicitud.calcularCostoTotal();
@@ -29,7 +27,6 @@ public class TecnicoController {
         return 0.0;
     }
 
-    // Obtener las especialidades presenciales requeridas por una solicitud
     public List<Especialidad> obtenerEspecialidadesRequeridas(Solicitud solicitud) {
         if (solicitud != null) {
             return solicitud.getEspecialidadesPresenciales();

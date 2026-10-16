@@ -29,24 +29,29 @@
             <children>
                 <Label style="-fx-font-weight: bold; -fx-text-fill: #0284c7; -fx-font-size: 14px;" text="Datos de la Solicitud y Cliente" />
 
+                <!-- Selector de Cliente Precargado -->
                 <HBox spacing="10.0">
                     <children>
-                        <TextField fx:id="txtCodigoSolicitud" promptText="Código de Solicitud" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="txtCedulaCliente" promptText="Cédula del Cliente" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="cmbClientes" promptText="Seleccionar Cliente Precargado" prefWidth="350.0" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCedulaCliente" promptText="Cédula del Cliente" editable="false" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
 
                 <HBox spacing="10.0">
                     <children>
-                        <TextField fx:id="txtNombreCliente" promptText="Nombre Completo del Cliente" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="txtCorreoCliente" promptText="Correo Electrónico" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtNombreCliente" promptText="Nombre Completo del Cliente" editable="false" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCorreoCliente" promptText="Correo Electrónico" editable="false" HBox.hgrow="ALWAYS" />
                     </children>
                 </HBox>
 
-                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <!-- Selección de Servicios y Prioridad -->
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <ComboBox fx:id="cmbServicios" promptText="Seleccionar Servicio" prefWidth="220.0" />
-                        <ComboBox fx:id="cmbPrioridad" promptText="Seleccionar Prioridad" prefWidth="220.0" />
+                        <ComboBox fx:id="cmbServicios" promptText="Seleccionar Servicio / Paquete" prefWidth="220.0" />
+                        <Button minHeight="30.0" onAction="#onAgregarElementoASolicitud" style="-fx-background-color: #0d9488; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="➕ Agregar a Solicitud" />
+
+                        <ComboBox fx:id="cmbPrioridad" promptText="Prioridad" prefWidth="140.0" />
+
                         <Button minHeight="32.0" onAction="#onRegistrarSolicitud" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="📋 Registrar Solicitud" />
                     </children>
                 </HBox>

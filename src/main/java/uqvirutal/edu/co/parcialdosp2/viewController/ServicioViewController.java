@@ -6,9 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.StringConverter;
 import uqvirutal.edu.co.parcialdosp2.App;
 import uqvirutal.edu.co.parcialdosp2.model.Servicio;
 import uqvirutal.edu.co.parcialdosp2.model.TechSolutions;
+import uqvirutal.edu.co.parcialdosp2.model.TipoComplemento;
 
 public class ServicioViewController {
 
@@ -22,7 +24,7 @@ public class ServicioViewController {
     @FXML private TableColumn<Servicio, String> colDescripcion;
     @FXML private TableColumn<Servicio, Number> colCosto;
 
-    @FXML private TextField txtNombreComplemento;
+    @FXML private ComboBox<TipoComplemento> cmbTipoComplemento;
     @FXML private TextField txtDescripcionComplemento;
     @FXML private TextField txtCostoComplemento;
 
@@ -30,9 +32,11 @@ public class ServicioViewController {
     @FXML private Label lblIncremento;
     @FXML private Label lblCostoFinal;
 
+
     @FXML
     void initialize() {
         initDataBinding();
+        initComplementosBinding();
         listenerSelection();
         cargarServicios();
     }
@@ -46,7 +50,8 @@ public class ServicioViewController {
                         nombre = data.getValue().getNombre();
                     }
                 } catch (Exception e) {
-                    nombre = "Servicio sin tipo";     }
+                    nombre = "Servicio sin tipo";
+                }
                 return new javafx.beans.property.SimpleStringProperty(nombre != null ? nombre : "");
             });
         }
@@ -80,9 +85,53 @@ public class ServicioViewController {
         }
     }
 
-    private void cargarServicios() {
-        System.out.println("🔍 ¿La tabla tblServicios es nula?: " + (tblServicios == null ? "SÍ (¡Aquí está el problema!)" : "NO (Inyectada correctamente)"));
+    private void initComplementosBinding() {
+        if (cmbTipoComplemento != null) {
+            cmbTipoComplemento.setItems(FXCollections.observableArrayList(TipoComplemento.values()));
 
+            cmbTipoComplemento.setConverter(new StringConverter<TipoComplemento>() {
+                @Override
+                public String toString(TipoComplemento tipo) {
+                    return tipo != null ? tipo.getNombre() : "Seleccionar Complemento";
+                }
+
+                @Override
+                public TipoComplemento fromString(String string) {
+                    return null;
+                }
+            });
+
+            cmbTipoComplemento.getSelectionModel().selectedItemProperty().addListener((obs, viejo, nuevo) -> {
+                if (nuevo != null) {
+                    if (txtDescripcionComplemento != null) {
+                        txtDescripcionComplemento.setText("Complemento: " + nuevo.getNombre());
+                    }
+                    if (txtCostoComplemento != null) {
+                        txtCostoComplemento.setText(String.valueOf(nuevo.getIncremento()));
+                    }
+
+                    if (servicioSeleccionado != null) {
+                        double costoBase = servicioSeleccionado.calcularCosto();
+                        double incremento = nuevo.getIncremento();
+                        lblCostoBase.setText(String.valueOf(costoBase));
+                        lblIncremento.setText(String.valueOf(incremento));
+                        lblCostoFinal.setText(String.valueOf(costoBase + incremento));
+                    }
+                } else {
+                    if (txtDescripcionComplemento != null) txtDescripcionComplemento.clear();
+                    if (txtCostoComplemento != null) txtCostoComplemento.clear();
+                    if (servicioSeleccionado != null) {
+                        double costoBase = servicioSeleccionado.calcularCosto();
+                        lblCostoBase.setText(String.valueOf(costoBase));
+                        lblIncremento.setText("0.0");
+                        lblCostoFinal.setText(String.valueOf(costoBase));
+                    }
+                }
+            });
+        }
+    }
+
+    private void cargarServicios() {
         if (tblServicios != null) {
             listaServicios.clear();
             var catalogo = TechSolutions.getInstancia().consultarCatalogo();
@@ -90,7 +139,6 @@ public class ServicioViewController {
                 listaServicios.addAll(catalogo);
             }
             tblServicios.setItems(listaServicios);
-            System.out.println("🔍 Elementos pintados exitosamente en la TableView: " + tblServicios.getItems().size());
         }
     }
 
@@ -99,9 +147,13 @@ public class ServicioViewController {
             tblServicios.getSelectionModel().selectedItemProperty().addListener((obs, anterior, nuevo) -> {
                 servicioSeleccionado = nuevo;
                 if (servicioSeleccionado != null) {
-                    lblCostoBase.setText(String.valueOf(servicioSeleccionado.calcularCosto()));
-                    lblCostoFinal.setText(lblCostoBase.getText());
-                    lblIncremento.setText("0.0");
+                    double costoBaseVal = servicioSeleccionado.calcularCosto();
+                    lblCostoBase.setText(String.valueOf(costoBaseVal));
+
+                    TipoComplemento seleccionado = cmbTipoComplemento.getSelectionModel().getSelectedItem();
+                    double incremento = (seleccionado != null) ? seleccionado.getIncremento() : 0.0;
+                    lblIncremento.setText(String.valueOf(incremento));
+                    lblCostoFinal.setText(String.valueOf(costoBaseVal + incremento));
                 }
             });
         }
@@ -114,8 +166,44 @@ public class ServicioViewController {
             return;
         }
 
+        TipoComplemento tipoSeleccionado = cmbTipoComplemento.getSelectionModel().getSelectedItem();
+        if (tipoSeleccionado == null) {
+            mostrarAlerta("Advertencia", "Debe seleccionar un complemento del desplegable.");
+            return;
+        }
+
+        try {
+            Servicio servicioDecorado = tipoSeleccionado.aplicarA(servicioSeleccionado);
+
+            int index = listaServicios.indexOf(servicioSeleccionado);
+            if (index >= 0) {
+                listaServicios.set(index, servicioDecorado);
+                servicioSeleccionado = servicioDecorado;
+            }
+
+            tblServicios.refresh();
+
+            double costoTotalActual = servicioSeleccionado.calcularCosto();
+            double incremento = tipoSeleccionado.getIncremento();
+            double costoBaseOriginal = costoTotalActual - incremento;
+
+            lblCostoBase.setText(String.valueOf(costoBaseOriginal));
+            lblIncremento.setText(String.valueOf(incremento));
+            lblCostoFinal.setText(String.valueOf(costoTotalActual));
+
+            mostrarAlerta("Éxito", "¡Complemento '" + tipoSeleccionado.getNombre() + "' aplicado correctamente al servicio!");
+            cmbTipoComplemento.getSelectionModel().clearSelection();
+
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo aplicar el complemento: " + e.getMessage());
+        }
     }
 
+    public void setApp(App app) {
+
+        this.app = app;
+
+    }
     @FXML
     void onVolver() {
         if (app != null) {

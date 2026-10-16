@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import uqvirutal.edu.co.parcialdosp2.viewController.PrimaryViewController;
+import uqvirutal.edu.co.parcialdosp2.viewController.TecnicoViewController;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ public class App extends Application {
     // Método para volver al menú principal
     public void openPrimary() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml")); // Ajusta la ruta si está en una subcarpeta (ej: "view/primary.fxml")
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
             Parent root = loader.load();
 
             PrimaryViewController controller = loader.getController();
@@ -54,7 +55,28 @@ public class App extends Application {
     }
 
     public void openTecnicosView() {
-        cargarVista("tecnicoView.fxml", "Consulta de Técnicos y Costos");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tecnicoView.fxml"));
+            Parent root = loader.load();
+
+            TecnicoViewController controller = loader.getController();
+            controller.setApp(this);
+            controller.cargarSolicitudes();
+
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+
+            if (controller != null) {
+                controller.cargarSolicitudes();
+            }
+
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setTitle("TechSolutions - Consulta de Técnicos y Costos");
+            primaryStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fxLoader(String fxmlFile) {

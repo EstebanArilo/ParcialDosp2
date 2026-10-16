@@ -1,100 +1,203 @@
 package uqvirutal.edu.co.parcialdosp2.viewController;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import uqvirutal.edu.co.parcialdosp2.App;
-import uqvirutal.edu.co.parcialdosp2.controller.SolicitudController;
 import uqvirutal.edu.co.parcialdosp2.model.*;
+
+import java.util.List;
 
 public class SolicitudViewController {
 
     private App app;
-    private SolicitudController solicitudController;
 
     private final ObservableList<Solicitud> listaSolicitudes = FXCollections.observableArrayList();
+    private final ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
+    private final ObservableList<Servicio> listaElementosContratables = FXCollections.observableArrayList();
 
+    @FXML private ComboBox<Cliente> cmbClientes;
     @FXML private TextField txtCodigoSolicitud;
-    @FXML private TextField txtNombreCliente;
     @FXML private TextField txtCedulaCliente;
+    @FXML private TextField txtNombreCliente;
     @FXML private TextField txtCorreoCliente;
 
-    // Suponiendo que permites seleccionar un servicio base o paquete del catálogo
     @FXML private ComboBox<Servicio> cmbServicios;
     @FXML private ComboBox<PrioridadSolicitud> cmbPrioridad;
 
     @FXML private TableView<Solicitud> tblSolicitudes;
     @FXML private TableColumn<Solicitud, String> colCodigo;
     @FXML private TableColumn<Solicitud, String> colCliente;
-    @FXML private TableColumn<Solicitud, String> colServicio;
-    @FXML private TableColumn<Solicitud, String> colPrioridad;
+    @FXML private TableColumn<Solicitud, EstadoSolicitud> colServicio; // Muestra el estado
+    @FXML private TableColumn<Solicitud, PrioridadSolicitud> colPrioridad;
+
+    private Solicitud.Builder builderActual;
 
     @FXML
     void initialize() {
-        solicitudController = new SolicitudController();
         initDataBinding();
-        cargarCombos();
+        cargarDatosIniciales();
+        listenerClienteSelection();
     }
 
     private void initDataBinding() {
-        colCodigo.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCodigo()));
-        colCliente.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCliente().getNombreCompleto()));
-        // Mostramos el estado o una descripción general de los elementos contratados
-        colServicio.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEstado().toString()));
-        colPrioridad.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPrioridad() != null ? data.getValue().getPrioridad().toString() : "N/A"));
+        if (colCodigo != null) {
+            colCodigo.setCellValueFactory(data -> new SimpleStringProperty(
+                    data.getValue() != null ? data.getValue().getCodigo() : ""
+            ));
+        }
+        if (colCliente != null) {
+            colCliente.setCellValueFactory(data -> new SimpleStringProperty(
+                    data.getValue() != null && data.getValue().getCliente() != null
+                            ? data.getValue().getCliente().getNombreCompleto() : ""
+            ));
+        }
+        if (colServicio != null) {
+            colServicio.setCellValueFactory(data -> new SimpleObjectProperty<>(
+                    data.getValue() != null ? data.getValue().getEstado() : null
+            ));
+        }
+        if (colPrioridad != null) {
+            colPrioridad.setCellValueFactory(data -> new SimpleObjectProperty<>(
+                    data.getValue() != null ? data.getValue().getPrioridad() : null
+            ));
+        }
+
+        if (tblSolicitudes != null) {
+            tblSolicitudes.setItems(listaSolicitudes);
+        }
     }
 
-    private void cargarCombos() {
-        cmbPrioridad.setItems(FXCollections.observableArrayList(PrioridadSolicitud.values()));
-        // Aquí puedes cargar los servicios o paquetes disponibles en el ComboBox si lo deseas
+    private void cargarDatosIniciales() {
+        TechSolutions ts = TechSolutions.getInstancia();
+
+        List<Cliente> clientes = ts.consultarClientes();
+        if (clientes != null) {
+            listaClientes.setAll(clientes);
+            if (cmbClientes != null) {
+                cmbClientes.setItems(listaClientes);
+            }
+        }
+
+        ObservableList<Servicio> elementosContratables = FXCollections.observableArrayList();
+
+        if (ts.consultarCatalogo() != null) {
+            elementosContratables.addAll(ts.consultarCatalogo());
+        }
+
+        if (ts.consultarPaquetes() != null) {
+            elementosContratables.addAll(ts.consultarPaquetes());
+        }
+
+        if (cmbServicios != null) {
+            listaElementosContratables.setAll(elementosContratables);
+            cmbServicios.setItems(listaElementosContratables);
+
+            cmbServicios.setConverter(new javafx.util.StringConverter<Servicio>() {
+                @Override
+                public String toString(Servicio servicio) {
+                    if (servicio == null) {
+                        return "Seleccionar Servicio o Paquete";
+                    }
+                    return servicio.getNombre() + " (Costo: $" + String.format("%,.0f", servicio.calcularCosto()) + ")";
+                }
+
+                @Override
+                public Servicio fromString(String string) {
+                    return null;
+                }
+            });
+        }
+
+        if (cmbPrioridad != null) {
+            cmbPrioridad.setItems(FXCollections.observableArrayList(PrioridadSolicitud.values()));
+        }
+
+        List<Solicitud> solicitudes = ts.consultarSolicitudes();
+        if (solicitudes != null) {
+            listaSolicitudes.setAll(solicitudes);
+        }
     }
 
-    public void setApp(App app) {
-        this.app = app;
-        actualizarTabla();
+    private void listenerClienteSelection() {
+        if (cmbClientes != null) {
+            cmbClientes.getSelectionModel().selectedItemProperty().addListener((obs, viejo, clienteSeleccionado) -> {
+                if (clienteSeleccionado != null) {
+                    if (txtCedulaCliente != null) txtCedulaCliente.setText(clienteSeleccionado.getDocumento());
+                    if (txtNombreCliente != null) txtNombreCliente.setText(clienteSeleccionado.getNombreCompleto());
+                    if (txtCorreoCliente != null) txtCorreoCliente.setText(clienteSeleccionado.getCorreo());
+
+                    Resultado<Solicitud.Builder> resultadoBuilder = TechSolutions.getInstancia().nuevaSolicitud(clienteSeleccionado.getDocumento());
+                    if (resultadoBuilder.isExitoso()) {
+                        builderActual = resultadoBuilder.getValor();
+                    }
+                }
+            });
+        }
+    }
+
+    @FXML
+    void onAgregarElementoASolicitud() {
+        if (builderActual == null) {
+            mostrarAlerta("Advertencia", "Debe seleccionar un cliente del desplegable primero.");
+            return;
+        }
+
+        Servicio servicioSeleccionado = cmbServicios.getSelectionModel().getSelectedItem();
+        if (servicioSeleccionado == null) {
+            mostrarAlerta("Advertencia", "Debe seleccionar un servicio o paquete para agregar.");
+            return;
+        }
+
+        builderActual.agregarServicio(servicioSeleccionado);
+        mostrarAlerta("Éxito", "Elemento '" + servicioSeleccionado.getNombre() + "' agregado a la solicitud.");
     }
 
     @FXML
     void onRegistrarSolicitud() {
-        String codigo = txtCodigoSolicitud.getText();
-        String nombreCliente = txtNombreCliente.getText();
-        String cedulaCliente = txtCedulaCliente.getText();
-        String correoCliente = txtCorreoCliente != null ? txtCorreoCliente.getText() : "correo@ejemplo.com";
-
-        PrioridadSolicitud prioridad = cmbPrioridad.getValue();
-        Servicio servicioSeleccionado = cmbServicios.getValue();
-
-        if (codigo.isEmpty() || nombreCliente.isEmpty() || cedulaCliente.isEmpty() || prioridad == null || servicioSeleccionado == null) {
-            mostrarAlerta("Advertencia", "Por favor complete todos los campos de la solicitud y seleccione un servicio.");
+        if (builderActual == null) {
+            mostrarAlerta("Advertencia", "Debe seleccionar un cliente y agregar al menos un servicio.");
             return;
         }
 
-        // Creamos el cliente pasando los 3 argumentos que exige el constructor del modelo
-        Cliente cliente = new Cliente(cedulaCliente, nombreCliente, correoCliente);
+        PrioridadSolicitud prioridadSeleccionada = cmbPrioridad.getSelectionModel().getSelectedItem();
+        if (prioridadSeleccionada != null) {
+            builderActual.prioridad(prioridadSeleccionada);
+        }
 
-        boolean registrado = solicitudController.registrarSolicitud(
-                codigo, cliente, servicioSeleccionado, prioridad
-        );
+        Resultado<Solicitud> resultado = TechSolutions.getInstancia().registrarSolicitud(builderActual);
 
-        if (registrado) {
-            mostrarAlerta("Éxito", "Solicitud registrada correctamente.");
-            actualizarTabla();
+        if (resultado.isExitoso()) {
+            Solicitud nuevaSol = resultado.getValor();
+            listaSolicitudes.add(nuevaSol);
+            mostrarAlerta("Éxito", "¡Solicitud registrada correctamente! Código: " + nuevaSol.getCodigo());
+
+            builderActual = null;
+            if (cmbClientes != null) cmbClientes.getSelectionModel().clearSelection();
+            if (txtCedulaCliente != null) txtCedulaCliente.clear();
+            if (txtNombreCliente != null) txtNombreCliente.clear();
+            if (txtCorreoCliente != null) txtCorreoCliente.clear();
+            if (cmbServicios != null) cmbServicios.getSelectionModel().clearSelection();
+            if (cmbPrioridad != null) cmbPrioridad.getSelectionModel().clearSelection();
+
         } else {
-            mostrarAlerta("Error", "No se pudo registrar la solicitud.");
+            mostrarAlerta("Error de Validación", resultado.getMensaje());
         }
     }
 
-    private void actualizarTabla() {
-        listaSolicitudes.clear();
-        listaSolicitudes.addAll(solicitudController.obtenerSolicitudes());
-        tblSolicitudes.setItems(listaSolicitudes);
-    }
+    public void setApp(App app) {
 
+        this.app = app;
+
+    }
     @FXML
     void onVolver() {
-        app.openPrimary();
+        if (app != null) {
+            app.openPrimary();
+        }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

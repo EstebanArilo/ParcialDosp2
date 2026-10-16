@@ -14,10 +14,8 @@ public class ServicioController {
 
     public List<Servicio> obtenerServiciosDisponibles() {
         List<Servicio> lista = new ArrayList<>();
-        // TechSolutions ya carga automáticamente el catálogo inicial en su constructor mediante el enum TipoServicio
         TechSolutions techSolutions = TechSolutions.getInstancia();
 
-        // Añadimos todos los elementos del catálogo oficial casteados o agregados a la lista
         lista.addAll(techSolutions.consultarCatalogo());
 
         return lista;

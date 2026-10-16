@@ -30,7 +30,7 @@
 
                 <HBox spacing="15.0" alignment="CENTER_LEFT">
                     <children>
-                        <ComboBox fx:id="cmbSolicitudesConsulta" promptText="Seleccionar Solicitud" prefWidth="280.0" onAction="#onSeleccionarSolicitud" />
+                        <ComboBox fx:id="cmbSolicitudesConsulta" promptText="Seleccionar Solicitud" prefWidth="280.0"  />
 
                         <VBox spacing="2.0">
                             <children>
@@ -60,8 +60,8 @@
         <!-- Tabla de Técnicos -->
         <TableView fx:id="tblTecnicos" prefHeight="200.0" prefWidth="710.0" style="-fx-background-radius: 5px;">
             <columns>
-                <TableColumn fx:id="colNombreTecnico" prefWidth="250.0" text="Nombre del Técnico" />
-                <TableColumn fx:id="colCedulaTecnico" prefWidth="200.0" text="Cédula" />
+                <TableColumn fx:id="colNombreTecnico" prefWidth="250.0" text="ID Técnico" />
+                <TableColumn fx:id="colCedulaTecnico" prefWidth="200.0" text="Disponibilidad" />
                 <TableColumn fx:id="colEspecialidadTecnico" prefWidth="258.0" text="Especialidad" />
             </columns>
         </TableView>

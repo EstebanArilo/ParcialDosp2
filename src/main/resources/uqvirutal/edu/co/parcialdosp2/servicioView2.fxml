@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -39,15 +40,15 @@
 
                 <HBox spacing="10.0">
                     <children>
-                        <TextField fx:id="txtNombreComplemento" promptText="Nombre complemento" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="txtDescripcionComplemento" promptText="Descripción" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="txtCostoComplemento" promptText="Costo adicional" prefWidth="120.0" />
+                        <ComboBox fx:id="cmbTipoComplemento" promptText="Seleccionar Complemento" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtDescripcionComplemento" promptText="Descripción" editable="false" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCostoComplemento" promptText="Costo adicional" editable="false" prefWidth="120.0" />
                     </children>
                 </HBox>
 
                 <HBox alignment="CENTER_LEFT" spacing="15.0">
                     <children>
-                        <Button minHeight="32.0" onAction="#onAgregarComplemento" style="-fx-background-color: #0d9488; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="✨ Agregar Complemento" />
+                        <Button minHeight="32.0" fx:id="btnAgregarComplemento" onAction="#onAgregarComplemento" style="-fx-background-color: #0d9488; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="✨ Agregar Complemento" />
 
                         <Label style="-fx-font-weight: bold;" text="Costo Base:" />
                         <Label fx:id="lblCostoBase" text="0.0" style="-fx-text-fill: #334155;" />
@@ -65,7 +66,7 @@
         <!-- Botón Volver al Menú Principal -->
         <HBox alignment="CENTER_LEFT">
             <children>
-                <Button minHeight="35.0" minWidth="100.0" onAction="#onVolver" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="⬅ Volver" />
+                <Button minHeight="35.0" minWidth="100.0" fx:id="btnVolver" onAction="#onVolver" style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="⬅ Volver" />
             </children>
         </HBox>
     </children>
