@@ -11,11 +11,11 @@ import java.util.List;
 
 public abstract class ServicioBase implements Servicio {
 
-    private String codigo = "";
-    private TipoServicio tipo = null;
-    private String descripcion = null;
+    private final String codigo;
+    private final TipoServicio tipo;
+    private final String descripcion;
 
-    protected ServicioBase() {
+    protected ServicioBase(String codigo, TipoServicio tipo, String descripcion) {
         this.codigo = codigo;
         this.tipo = tipo;
         this.descripcion = descripcion == null ? "" : descripcion;

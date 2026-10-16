@@ -2,9 +2,7 @@ package uqvirutal.edu.co.parcialdosp2.controller;
 
 import uqvirutal.edu.co.parcialdosp2.model.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class PaqueteController {
 
@@ -34,18 +32,30 @@ public class PaqueteController {
         return new ArrayList<>();
     }
 
-    public Resultado<Object> crearPaquete(String a, String s) {
-        return null;
+    public Resultado<PaqueteTecnologico> crearPaquete(String nombre, String descripcion) {
+        return techSolutions.crearPaquete(nombre, descripcion);
     }
 
-    public Resultado<Object> agregarComponente(PaqueteTecnologico a, PaqueteTecnologico a1) {
-        return null;
+    public Resultado<Void> agregarComponente(PaqueteTecnologico paquete, Servicio componente) {
+        return techSolutions.agregarComponente(paquete, componente);
     }
 
-    public Collection<Object> consultarComponentesDisponibles(PaqueteTecnologico a) {
-        return List.of();
+    /** Elementos que se pueden agregar al paquete: sin él mismo, sin repetidos y sin ciclos. */
+    public List<Servicio> consultarComponentesDisponibles(PaqueteTecnologico paquete) {
+        List<Servicio> disponibles = new ArrayList<>();
+        List<Servicio> actuales = paquete.getComponentes();
+        for (Servicio elemento : techSolutions.consultarElementosContratables()) {
+            boolean esElMismo = elemento == paquete;
+            boolean yaEsta = actuales.contains(elemento);
+            boolean haceCiclo = elemento instanceof PaqueteTecnologico otro && otro.contieneA(paquete);
+            if (!esElMismo && !yaEsta && !haceCiclo) {
+                disponibles.add(elemento);
+            }
+        }
+        return disponibles;
     }
 
-    public Map<Object, Object> consultarComponentes(PaqueteTecnologico a) {
+    public List<Servicio> consultarComponentes(PaqueteTecnologico paquete) {
+        return techSolutions.consultarComponentes(paquete);
     }
 }

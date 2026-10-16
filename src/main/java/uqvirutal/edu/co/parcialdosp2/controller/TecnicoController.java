@@ -6,9 +6,11 @@ import java.util.List;
 public class TecnicoController {
 
     private final RepositorioSolicitudes repositorioSolicitudes;
+    private final TechSolutions techSolutions;
 
     public TecnicoController() {
         this.repositorioSolicitudes = RepositorioSolicitudes.getInstancia();
+        this.techSolutions = TechSolutions.getInstancia();
     }
 
     // Consultar un técnico a través del proveedor según una especialidad requerida
@@ -35,15 +37,15 @@ public class TecnicoController {
         return List.of();
     }
 
-    public boolean hayTecnicosDisponibles(boolean conTecnico) {
-        return conTecnico;
+    public boolean hayTecnicosDisponibles(Solicitud solicitud) {
+        return techSolutions.hayTecnicosDisponibles(solicitud);
     }
 
-    public int calcularCostoTotal(boolean conTecnico) {
-        return 0;
+    public double calcularCostoTotal(Solicitud solicitud) {
+        return techSolutions.calcularCostoTotal(solicitud);
     }
 
-    public Resultado<Object> confirmarSolicitud(boolean conTecnico) {
-        return null;
+    public Resultado<Solicitud> confirmarSolicitud(Solicitud solicitud) {
+        return techSolutions.confirmarSolicitud(solicitud);
     }
 }

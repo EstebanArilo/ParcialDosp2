@@ -8,8 +8,8 @@ package uqvirutal.edu.co.parcialdosp2.model;
 public class MantenimientoCorrectivo extends ServicioBase {
 
     public MantenimientoCorrectivo(String codigo) {
-        super(
-        );
+        super(codigo, TipoServicio.MANTENIMIENTO_CORRECTIVO,
+                "Reparación de equipos que ya presentan fallas.");
     }
 
     @Override public Especialidad getEspecialidad() { return Especialidad.MANTENIMIENTO_EQUIPOS; }

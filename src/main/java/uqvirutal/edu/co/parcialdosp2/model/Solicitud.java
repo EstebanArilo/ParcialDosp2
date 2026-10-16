@@ -12,8 +12,6 @@ import java.util.List;
  * técnicos. Se crea con el patrón Builder.
  */
 
-
-
 public class Solicitud {
 
     private final String codigo;

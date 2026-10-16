@@ -291,7 +291,16 @@ public class TechSolutions {
         return total;
     }
 
-    public int[] consultarTiposComplemento() {
-        return new int[0];
+    public TipoComplemento[] consultarTiposComplemento() {
+        return TipoComplemento.values();
+    }
+
+    /** Catálogo + servicios personalizados + paquetes: todo lo que se puede contratar. */
+
+    public List<Servicio> consultarElementosContratables() {
+        List<Servicio> elementos = new ArrayList<>(catalogo);
+        elementos.addAll(serviciosPersonalizados);
+        elementos.addAll(paquetes);
+        return elementos;
     }
 }

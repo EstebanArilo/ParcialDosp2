@@ -8,8 +8,8 @@ package uqvirutal.edu.co.parcialdosp2.model;
 public class RecuperacionInformacion extends ServicioBase {
 
     public RecuperacionInformacion(String codigo) {
-        super(
-        );
+        super(codigo, TipoServicio.RECUPERACION_DE_INFORMACION,
+                "Recuperación de datos de discos o medios dañados.");
     }
 
     @Override public Especialidad getEspecialidad() {

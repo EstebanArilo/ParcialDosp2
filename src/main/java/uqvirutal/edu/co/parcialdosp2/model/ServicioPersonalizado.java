@@ -67,8 +67,12 @@ public class ServicioPersonalizado extends Complemento {
     }
 
     @Override
+    public double getIncrementos() {
+        return servicio.getIncrementos() + costoAdicional;
+    }
+
+    @Override
     public double calcularCosto() {
         return servicio.calcularCosto() + costoAdicional;
     }
 }
-

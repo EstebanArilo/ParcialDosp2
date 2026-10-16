@@ -1,15 +1,17 @@
 package uqvirutal.edu.co.parcialdosp2.controller;
 
 import uqvirutal.edu.co.parcialdosp2.model.*;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public class SolicitudController {
 
     private final RepositorioSolicitudes repositorio;
+    private final TechSolutions techSolutions;
 
     public SolicitudController() {
         this.repositorio = RepositorioSolicitudes.getInstancia();
+        this.techSolutions = TechSolutions.getInstancia();
     }
 
     public boolean registrarSolicitud(String codigo, Cliente cliente, Servicio servicio,
@@ -32,15 +34,29 @@ public class SolicitudController {
         return repositorio.getSolicitudes();
     }
 
-    public <E> boolean registrarSolicitud(String laura, List<E> es, Object o, Object o1, Object o2) {
-        return false;
+    public Resultado<Solicitud> registrarSolicitud(String documentoCliente, List<? extends Servicio> elementos,
+                                                   PrioridadSolicitud prioridad, LocalDate fechaProgramada,
+                                                   String observaciones) {
+        Resultado<Solicitud.Builder> inicio = techSolutions.nuevaSolicitud(documentoCliente);
+        if (!inicio.isExitoso()) {
+            return Resultado.error(inicio.getMensaje());
+        }
+        if (elementos == null) {
+            return Resultado.error("Debe seleccionar al menos un elemento a contratar.");
+        }
+        Solicitud.Builder builder = inicio.getValor();
+        for (Servicio elemento : elementos) {
+            builder.agregarServicio(elemento);
+        }
+        builder.prioridad(prioridad).fechaProgramada(fechaProgramada).observaciones(observaciones);
+        return techSolutions.registrarSolicitud(builder);
     }
 
-    public Map<Object, Object> consultarSolicitudes() {
-        return Map.of();
+    public List<Solicitud> consultarSolicitudes() {
+        return techSolutions.consultarSolicitudes();
     }
 
-    public Map<Object, Object> consultarElementosContratables() {
-        return Map.of();
+    public List<Servicio> consultarElementosContratables() {
+        return techSolutions.consultarElementosContratables();
     }
 }

@@ -13,17 +13,16 @@ import java.util.List;
 public abstract class Complemento implements Servicio {
 
     protected final Servicio servicio;
-    private TipoComplemento tipo = null;
+    private final TipoComplemento tipo;
 
     protected Complemento(Servicio servicio, TipoComplemento tipo) {
         this.servicio = servicio;
         this.tipo = tipo;
     }
 
-    public Complemento(Servicio servicio) {
-        Servicio servicio1 = null;
-        this.servicio = servicio1;
-        this.tipo = tipo;
+    // Para complementos libres (ServicioPersonalizado), que no tienen TipoComplemento
+    protected Complemento(Servicio servicio) {
+        this(servicio, null);
     }
 
     public TipoComplemento getTipoComplemento() { return tipo; }
