@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" fx:controller="uqvirutal.edu.co.parcialdosp2.viewController.PrimaryViewController" prefHeight="420.0" prefWidth="600.0" spacing="20.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/17.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+    </padding>
+
+    <children>
+        <!-- Encabezado Estilizado -->
+        <VBox alignment="CENTER" prefHeight="80.0" prefWidth="540.0" style="-fx-background-color: #1e293b; -fx-background-radius: 10px; -fx-padding: 15px;">
+            <children>
+                <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="TechSolutions Management System"/>
+                <Label style="-fx-font-size: 13px; -fx-text-fill: #94a3b8;" text="Panel de Control Principal"/>
+            </children>
+        </VBox>
+
+        <!-- Cuadrícula de Botones Principales (2x2) -->
+        <GridPane hgap="15.0" vgap="15.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="70.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="70.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <!-- Botón 1: Servicios (Decorador) -->
+                <Button GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="1.7976931348623157E308" minHeight="70.0" onAction="#onAbrirServicios" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8px;" text="🛠 Gestión de Servicios"/>
+
+                <!-- Botón 2: Paquetes (Composite) -->
+                <Button GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="1.7976931348623157E308" minHeight="70.0" onAction="#onAbrirPaquetes" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8px;" text="📦 Paquetes Tecnológicos"/>
+
+                <!-- Botón 3: Solicitudes (Builder) -->
+                <Button GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="1.7976931348623157E308" minHeight="70.0" onAction="#onAbrirSolicitudes" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8px;" text="📋 Registro de Solicitudes"/>
+
+                <!-- Botón 4: Técnicos y Costos -->
+                <Button GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="1.7976931348623157E308" minHeight="70.0" onAction="#onAbrirTecnicosCostos" style="-fx-background-color: #0284c7; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8px;" text="👨‍💻 Técnicos y Costos"/>
+            </children>
+        </GridPane>
+
+        <!-- Botón Inferior de Salida -->
+        <Button maxWidth="200.0" minHeight="40.0" onAction="#onSalir" style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13px; -fx-background-radius: 6px;" text="🚪 Salir del Sistema"/>
+    </children>
+</VBox>
