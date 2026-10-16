@@ -11,9 +11,9 @@ import java.util.List;
 
 public abstract class ServicioBase implements Servicio {
 
-    private final String codigo;
-    private final TipoServicio tipo;
-    private final String descripcion;
+    private String codigo = "";
+    private TipoServicio tipo = null;
+    private String descripcion = null;
 
     protected ServicioBase() {
         this.codigo = codigo;
