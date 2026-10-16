@@ -14,9 +14,13 @@ public enum Especialidad {
 
     private final String nombre;
 
-    Especialidad(String nombre) { this.nombre = nombre; }
+    Especialidad(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public String getNombre() { return nombre; }
+    public String getNombre() {
+        return nombre;
+    }
 
     public static void agregarSinRepetir(List<Especialidad> destino, List<Especialidad> origen) {
         for (Especialidad especialidad : origen) {
@@ -27,5 +31,7 @@ public enum Especialidad {
     }
 
     @Override
-    public String toString() { return nombre; }
+    public String toString() {
+        return nombre;
+    }
 }

@@ -20,11 +20,21 @@ public class Tecnico {
         this.costoDesplazamiento = costoDesplazamiento;
     }
 
-    public String getId() { return id; }
-    public Especialidad getEspecialidad() { return especialidad; }
-    public DisponibilidadTecnico getDisponibilidad() { return disponibilidad; }
-    public boolean isDisponible() { return disponibilidad == DisponibilidadTecnico.DISPONIBLE; }
-    public double getCostoDesplazamiento() { return costoDesplazamiento; }
+    public String getId() {
+        return id;
+    }
+    public Especialidad getEspecialidad() {
+        return especialidad;
+    }
+    public DisponibilidadTecnico getDisponibilidad() {
+        return disponibilidad;
+    }
+    public boolean isDisponible() {
+        return disponibilidad == DisponibilidadTecnico.DISPONIBLE;
+    }
+    public double getCostoDesplazamiento() {
+        return costoDesplazamiento;
+    }
 
     @Override
     public String toString() {

@@ -39,19 +39,35 @@ public class Solicitud {
         this.prioridad = builder.prioridad;
     }
 
-    public String getCodigo() { return codigo; }
-    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
-    public Cliente getCliente() { return cliente; }
+    public String getCodigo() {
+        return codigo;
+    }
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+    public Cliente getCliente() {
+        return cliente;
+    }
 
     public List<Servicio> getElementosContratados() {
         return new ArrayList<>(elementosContratados);
     }
 
-    public LocalDate getFechaProgramada() { return fechaProgramada; }
-    public String getObservaciones() { return observaciones; }
-    public PrioridadSolicitud getPrioridad() { return prioridad; }
-    public EstadoSolicitud getEstado() { return estado; }
-    public double getCostoDesplazamiento() { return costoDesplazamiento; }
+    public LocalDate getFechaProgramada() {
+        return fechaProgramada;
+    }
+    public String getObservaciones() {
+        return observaciones;
+    }
+    public PrioridadSolicitud getPrioridad() {
+        return prioridad;
+    }
+    public EstadoSolicitud getEstado() {
+        return estado;
+    }
+    public double getCostoDesplazamiento() {
+        return costoDesplazamiento;
+    }
 
     public double calcularCostoServicios() {
         double total = 0;
@@ -89,6 +105,7 @@ public class Solicitud {
     }
 
     // Patrón Builder
+
     public static class Builder {
 
         private final String codigo;
@@ -105,6 +122,7 @@ public class Solicitud {
         }
 
         // Si el elemento es nulo o está repetido no se agrega; el error se informa en build()
+
         public Builder agregarServicio(Servicio servicio) {
             if (servicio == null) {
                 errores.add("El elemento a contratar es obligatorio.");

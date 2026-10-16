@@ -72,6 +72,7 @@ public class TechSolutions {
     }
 
     /** Permite integrar otro proveedor tecnológico sin modificar el resto del sistema. */
+
     public boolean setProveedorTecnicos(ProveedorTecnicos proveedorTecnicos) {
         if (proveedorTecnicos == null) {
             return false;
@@ -80,11 +81,12 @@ public class TechSolutions {
         return true;
     }
 
-    // ------------------------------------------------------------------
+
     // 1. Gestión y personalización de servicios tecnológicos
-    // ------------------------------------------------------------------
+
 
     /** Crea un servicio de alguno de los tipos establecidos y lo agrega al catálogo. */
+
     public Resultado<ServicioBase> crearServicio(TipoServicio tipo) {
         FactoryServicios fabrica = tipo == null ? null : tipo.getFabrica();
         if (fabrica == null) {
@@ -103,6 +105,7 @@ public class TechSolutions {
      * Incorpora una o varias características complementarias a un servicio.
      * Devuelve un servicio personalizado; el servicio del catálogo no se modifica.
      */
+
     public Resultado<Servicio> personalizarServicio(Servicio servicio, List<TipoComplemento> complementos) {
         if (servicio == null) {
             return Resultado.error("Debe seleccionar un servicio.");
@@ -129,9 +132,9 @@ public class TechSolutions {
         return new ArrayList<>(serviciosPersonalizados);
     }
 
-    // ------------------------------------------------------------------
+
     // 2. Configuración de paquetes tecnológicos
-    // ------------------------------------------------------------------
+
 
     public Resultado<PaqueteTecnologico> crearPaquete(String nombre, String descripcion) {
         if (nombre == null || nombre.isBlank()) {
@@ -143,6 +146,7 @@ public class TechSolutions {
     }
 
     /** Agrega un servicio, servicio personalizado u otro paquete (valida que no haya ciclos). */
+
     public Resultado<Void> agregarComponente(PaqueteTecnologico paquete, Servicio componente) {
         if (paquete == null) {
             return Resultado.error("Debe seleccionar un paquete.");
@@ -158,15 +162,16 @@ public class TechSolutions {
         return new ArrayList<>(paquetes);
     }
 
-    // ------------------------------------------------------------------
+
     // 3. Registro de solicitudes de servicios
-    // ------------------------------------------------------------------
+
 
     public List<Cliente> consultarClientes() {
         return new ArrayList<>(clientes);
     }
 
     // Devuelve null si no existe un cliente con ese documento
+
     public Cliente buscarCliente(String documento) {
         for (Cliente cliente : clientes) {
             if (cliente.getDocumento().equals(documento)) {
@@ -177,6 +182,7 @@ public class TechSolutions {
     }
 
     /** Inicia una solicitud para un cliente previamente registrado, con su código único. */
+
     public Resultado<Solicitud.Builder> nuevaSolicitud(String documentoCliente) {
         Cliente cliente = buscarCliente(documentoCliente);
         if (cliente == null) {
@@ -186,6 +192,7 @@ public class TechSolutions {
     }
 
     /** Valida la información obligatoria, construye la solicitud y la registra (queda PENDIENTE). */
+
     public Resultado<Solicitud> registrarSolicitud(Solicitud.Builder builder) {
         Resultado<Solicitud> resultado = builder.build();
         if (resultado.isExitoso()) {
@@ -199,6 +206,7 @@ public class TechSolutions {
     }
 
     // Devuelve null si no existe una solicitud con ese código
+
     public Solicitud buscarSolicitud(String codigo) {
         for (Solicitud solicitud : solicitudes) {
             if (solicitud.getCodigo().equals(codigo)) {
@@ -208,16 +216,18 @@ public class TechSolutions {
         return null;
     }
 
-    // ------------------------------------------------------------------
+
     // 4. Consulta de técnicos y cálculo del costo de las solicitudes
-    // ------------------------------------------------------------------
+
 
     /** Consulta la disponibilidad de un técnico por nombre de especialidad (vía el proveedor). */
+
     public Tecnico consultarTecnico(Especialidad especialidad) {
         return proveedorTecnicos.consultarTecnico(especialidad);
     }
 
     /** Técnicos que necesita la solicitud: uno por cada especialidad presencial distinta. */
+
     public List<Tecnico> consultarTecnicosRequeridos(Solicitud solicitud) {
         List<Tecnico> tecnicos = new ArrayList<>();
         for (Especialidad especialidad : solicitud.getEspecialidadesPresenciales()) {
@@ -227,6 +237,7 @@ public class TechSolutions {
     }
 
     /** Verdadero si no requiere atención presencial o si hay técnico para cada especialidad. */
+
     public boolean hayTecnicosDisponibles(Solicitud solicitud) {
         return consultarTecnicosRequeridos(solicitud).stream().allMatch(Tecnico::isDisponible);
     }
@@ -235,6 +246,7 @@ public class TechSolutions {
      * Costo total = servicios + paquetes + complementos + desplazamiento (si aplica).
      * El desplazamiento se cobra una sola vez por especialidad: sin cargos duplicados.
      */
+
     public double calcularCostoTotal(Solicitud solicitud) {
         if (solicitud.getEstado() == EstadoSolicitud.CONFIRMADA) {
             return solicitud.calcularCostoTotal();
@@ -246,6 +258,7 @@ public class TechSolutions {
      * Confirma la solicitud. Si requiere atención presencial y no hay técnicos
      * disponibles, informa la situación y no la confirma.
      */
+
     public Resultado<Solicitud> confirmarSolicitud(Solicitud solicitud) {
         if (solicitud == null) {
             return Resultado.error("Debe seleccionar una solicitud.");

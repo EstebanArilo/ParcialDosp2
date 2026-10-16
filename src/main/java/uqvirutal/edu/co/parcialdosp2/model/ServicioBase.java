@@ -21,18 +21,30 @@ public abstract class ServicioBase implements Servicio {
         this.descripcion = descripcion == null ? "" : descripcion;
     }
 
-    public TipoServicio getTipo() { return tipo; }
+    public TipoServicio getTipo() {
+        return tipo;
+    }
 
     public abstract Especialidad getEspecialidad();
     public abstract String getCondiciones();
 
     public boolean requierePresencialPorNaturaleza() { return false; }
 
-    @Override public String getCodigo() { return codigo; }
-    @Override public String getNombre() { return tipo.getNombre(); }
-    @Override public String getDescripcion() { return descripcion; }
-    @Override public double getCostoBase() { return tipo.getCostoBase(); }
-    @Override public double getIncrementos() { return 0; }
+    @Override public String getCodigo() {
+        return codigo;
+    }
+    @Override public String getNombre() {
+        return tipo.getNombre();
+    }
+    @Override public String getDescripcion() {
+        return descripcion;
+    }
+    @Override public double getCostoBase() {
+        return tipo.getCostoBase();
+    }
+    @Override public double getIncrementos() {
+        return 0;
+    }
 
     @Override
     public List<Especialidad> getEspecialidades() {

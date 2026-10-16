@@ -12,7 +12,9 @@ public class RecuperacionInformacion extends ServicioBase {
         );
     }
 
-    @Override public Especialidad getEspecialidad() { return Especialidad.RECUPERACION_DATOS; }
+    @Override public Especialidad getEspecialidad() {
+        return Especialidad.RECUPERACION_DATOS;
+    }
 
     @Override
     public String getCondiciones() {

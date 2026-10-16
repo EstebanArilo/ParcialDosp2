@@ -7,8 +7,12 @@ public enum PrioridadSolicitud {
 
     private final String nombre;
 
-    PrioridadSolicitud(String nombre) { this.nombre = nombre; }
+    PrioridadSolicitud(String nombre) {
+        this.nombre = nombre;
+    }
 
     @Override
-    public String toString() { return nombre; }
+    public String toString() {
+        return nombre;
+    }
 }

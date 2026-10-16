@@ -22,13 +22,19 @@ public enum TipoComplemento {
         this.creador = creador;
     }
 
-    public String getNombre() { return nombre; }
-    public double getIncremento() { return incremento; }
+    public String getNombre() {
+        return nombre;
+    }
+    public double getIncremento() {
+        return incremento;
+    }
 
     public Complemento aplicarA(Servicio servicio) {
         return creador.apply(servicio);
     }
 
     @Override
-    public String toString() { return nombre; }
+    public String toString() {
+        return nombre;
+    }
 }

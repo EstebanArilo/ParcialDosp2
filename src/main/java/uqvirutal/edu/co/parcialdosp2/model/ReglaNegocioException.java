@@ -14,7 +14,13 @@ record Resultado<T>(boolean exitoso, String mensaje, T valor) {
         return new Resultado<>(false, mensaje, null);
     }
 
-    public boolean isExitoso() { return exitoso; }
-    public String getMensaje() { return mensaje; }
-    public T getValor() { return valor; }
+    public boolean isExitoso() {
+        return exitoso;
+    }
+    public String getMensaje() {
+        return mensaje;
+    }
+    public T getValor() {
+        return valor;
+    }
 }

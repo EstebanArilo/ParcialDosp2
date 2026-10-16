@@ -12,12 +12,16 @@ public class InstalacionRedes extends ServicioBase {
         );
     }
 
-    @Override public Especialidad getEspecialidad() { return Especialidad.REDES; }
+    @Override public Especialidad getEspecialidad() {
+        return Especialidad.REDES;
+    }
 
     @Override
     public String getCondiciones() {
         return "Requiere visita técnica para el cableado y la configuración de los equipos de red.";
     }
 
-    @Override public boolean requierePresencialPorNaturaleza() { return true; }
+    @Override public boolean requierePresencialPorNaturaleza() {
+        return true;
+    }
 }

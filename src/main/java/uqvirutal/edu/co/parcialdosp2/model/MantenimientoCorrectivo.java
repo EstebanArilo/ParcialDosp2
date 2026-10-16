@@ -19,5 +19,7 @@ public class MantenimientoCorrectivo extends ServicioBase {
         return "Incluye diagnóstico; los repuestos se cotizan aparte.";
     }
 
-    @Override public boolean requierePresencialPorNaturaleza() { return true; }
+    @Override public boolean requierePresencialPorNaturaleza() {
+        return true;
+    }
 }

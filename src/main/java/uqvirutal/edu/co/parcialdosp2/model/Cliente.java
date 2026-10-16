@@ -17,10 +17,18 @@ public class Cliente {
         this.correo = correo;
     }
 
-    public String getDocumento() { return documento; }
-    public String getNombreCompleto() { return nombreCompleto; }
-    public String getCorreo() { return correo; }
+    public String getDocumento() {
+        return documento;
+    }
+    public String getNombreCompleto()
+    { return nombreCompleto;
+    }
+    public String getCorreo() {
+        return correo;
+    }
 
     @Override
-    public String toString() { return nombreCompleto + " (" + documento + ")"; }
+    public String toString() {
+        return nombreCompleto + " (" + documento + ")";
+    }
 }
