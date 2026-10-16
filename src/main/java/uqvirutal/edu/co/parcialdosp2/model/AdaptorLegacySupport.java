@@ -2,6 +2,13 @@ package uqvirutal.edu.co.parcialdosp2.model;
 
 import uqvirutal.edu.co.parcialdosp2.servicios.LegacySupport;
 
+/**
+ * Adaptador (Adapter) que conecta el LegacySupport con el sistema. Traduce la
+ * especialidad al código que entiende el sistema viejo y convierte su respuesta de
+ * texto en un objeto Tecnico. Si la respuesta es inválida o no hay código, devuelve un
+ * técnico NO_DISPONIBLE.
+ */
+
 class AdaptadorLegacySupport implements ProveedorTecnicos {
 
     private final LegacySupport legacySupport;

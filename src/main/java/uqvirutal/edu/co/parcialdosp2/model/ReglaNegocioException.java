@@ -1,6 +1,6 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
-public record Resultado<T>(boolean exitoso, String mensaje, T valor) {
+record Resultado<T>(boolean exitoso, String mensaje, T valor) {
 
     public static <T> Resultado<T> exito(T valor) {
         return new Resultado<>(true, "", valor);

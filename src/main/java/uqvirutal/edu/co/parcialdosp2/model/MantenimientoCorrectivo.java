@@ -1,10 +1,15 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Servicio de mantenimiento correctivo: arreglar equipos que ya presentan fallas.
+ * Es de la especialidad MANTENIMIENTO_EQUIPOS.
+ */
+
 public class MantenimientoCorrectivo extends ServicioBase {
 
     public MantenimientoCorrectivo(String codigo) {
-        super(codigo, TipoServicio.MANTENIMIENTO_CORRECTIVO,
-                "Diagnóstico y reparación de fallas en equipos de cómputo.");
+        super(
+        );
     }
 
     @Override public Especialidad getEspecialidad() { return Especialidad.MANTENIMIENTO_EQUIPOS; }

@@ -1,5 +1,10 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Cliente de la empresa. Guarda su documento, su nombre completo y su correo, y no
+ * cambia una vez creado.
+ */
+
 public class Cliente {
 
     private final String documento;

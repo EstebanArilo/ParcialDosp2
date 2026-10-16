@@ -3,17 +3,25 @@ package uqvirutal.edu.co.parcialdosp2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base de los complementos que se le pueden agregar a un servicio (Decorator). Envuelve
+ * un servicio, copia sus datos y le suma su propio incremento al costo. Se pueden poner
+ * varios complementos uno sobre otro, y los métodos complementosDe y desenvolver
+ * permiten saber cuáles tiene aplicados o volver al servicio original.
+ */
+
 public abstract class Complemento implements Servicio {
 
     protected final Servicio servicio;
-    private final TipoComplemento tipo;
+    private TipoComplemento tipo = null;
 
     protected Complemento(Servicio servicio, TipoComplemento tipo) {
         this.servicio = servicio;
         this.tipo = tipo;
     }
 
-    public Complemento(Servicio servicio, Servicio servicio1, TipoComplemento tipo) {
+    public Complemento(Servicio servicio) {
+        Servicio servicio1 = null;
         this.servicio = servicio1;
         this.tipo = tipo;
     }

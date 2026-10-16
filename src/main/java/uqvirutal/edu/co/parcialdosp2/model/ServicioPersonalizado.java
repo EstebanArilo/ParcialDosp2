@@ -1,5 +1,10 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Complemento libre: el usuario define el nombre, la descripción y el costo adicional
+ * (que no puede ser negativo). Se usa para personalizar un servicio con algo que no
+ * está en la lista de complementos fijos.
+ */
 
 public class ServicioPersonalizado extends Complemento {
 

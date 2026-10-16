@@ -5,6 +5,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa lo que pide un cliente: los servicios que quiere contratar y algunos datos
+ * extra como la fecha programada, las observaciones y la prioridad. Empieza siempre
+ * como PENDIENTE y solo TechSolutions la puede confirmar, cuando ya revisó que haya
+ * técnicos. Se crea con el patrón Builder.
+ */
+
+
+
 public class Solicitud {
 
     private final String codigo;

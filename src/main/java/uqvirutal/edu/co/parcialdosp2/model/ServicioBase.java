@@ -3,13 +3,19 @@ package uqvirutal.edu.co.parcialdosp2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Servicio normal del catálogo. Su nombre y su costo base salen del TipoServicio, y
+ * cada clase hija define su especialidad, sus condiciones y si necesita visita
+ * presencial por su naturaleza.
+ */
+
 public abstract class ServicioBase implements Servicio {
 
     private final String codigo;
     private final TipoServicio tipo;
     private final String descripcion;
 
-    protected ServicioBase(String codigo, TipoServicio tipo, String descripcion) {
+    protected ServicioBase() {
         this.codigo = codigo;
         this.tipo = tipo;
         this.descripcion = descripcion == null ? "" : descripcion;

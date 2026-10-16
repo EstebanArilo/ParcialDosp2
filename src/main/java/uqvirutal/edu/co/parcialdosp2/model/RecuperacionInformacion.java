@@ -1,10 +1,15 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Servicio de recuperación de datos de discos o medios dañados. Es de la especialidad
+ * RECUPERACION_DATOS y se hace en laboratorio, por eso no requiere visita.
+ */
+
 public class RecuperacionInformacion extends ServicioBase {
 
     public RecuperacionInformacion(String codigo) {
-        super(codigo, TipoServicio.RECUPERACION_DE_INFORMACION,
-                "Recuperación de datos de discos y medios de almacenamiento dañados.");
+        super(
+        );
     }
 
     @Override public Especialidad getEspecialidad() { return Especialidad.RECUPERACION_DATOS; }

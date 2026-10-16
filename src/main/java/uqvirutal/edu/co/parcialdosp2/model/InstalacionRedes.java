@@ -1,10 +1,15 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Servicio de instalación y configuración de redes de datos. Es de la especialidad
+ * REDES y siempre necesita visita de un técnico.
+ */
+
 public class InstalacionRedes extends ServicioBase {
 
     public InstalacionRedes(String codigo) {
-        super(codigo, TipoServicio.INSTALACION_DE_REDES,
-                "Instalación y configuración de redes de datos para la empresa.");
+        super(
+        );
     }
 
     @Override public Especialidad getEspecialidad() { return Especialidad.REDES; }

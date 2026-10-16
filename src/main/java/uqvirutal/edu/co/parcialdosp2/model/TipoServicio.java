@@ -1,5 +1,10 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Tipos de servicio del catálogo. Cada uno tiene su nombre, su costo base y la fábrica
+ * que lo crea.
+ */
+
 public enum TipoServicio {
 
     MANTENIMIENTO_PREVENTIVO("Mantenimiento preventivo", 80_000, new FactoryMantenimientoPreventivo()),

@@ -3,6 +3,13 @@ package uqvirutal.edu.co.parcialdosp2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Paquete que agrupa varios servicios, servicios personalizados u otros paquetes
+ * (Composite). Su costo es la suma del costo de sus componentes y sus especialidades
+ * salen de ellos, sin repetirse. Evita que un paquete se agregue a sí mismo, directa o
+ * indirectamente, y que se repita un componente.
+ */
+
 public class PaqueteTecnologico implements Servicio {
 
     private final String codigo;

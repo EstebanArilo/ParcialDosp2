@@ -2,6 +2,11 @@ package uqvirutal.edu.co.parcialdosp2.model;
 
 import java.util.List;
 
+/**
+ * Áreas en las que trabajan los técnicos: mantenimiento de equipos, redes y
+ * recuperación de datos. También tiene un método para unir listas sin repetir.
+ */
+
 public enum Especialidad {
     MANTENIMIENTO_EQUIPOS("Mantenimiento de equipos"),
     REDES("Redes"),

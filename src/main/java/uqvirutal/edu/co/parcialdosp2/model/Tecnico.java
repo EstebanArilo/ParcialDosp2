@@ -1,5 +1,10 @@
 package uqvirutal.edu.co.parcialdosp2.model;
 
+/**
+ * Técnico que devuelve el proveedor para una especialidad. Tiene su id, su
+ * especialidad, si está disponible o no y lo que cuesta el desplazamiento.
+ */
+
 public class Tecnico {
 
     private final String id;
