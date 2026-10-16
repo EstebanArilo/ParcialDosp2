@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase principal del modelo (patrón creacional Singleton).
- * Es la fachada que usan los controladores: administra el catálogo, los servicios
- * personalizados, los paquetes, los clientes precargados y las solicitudes.
+ * Clase principal del modelo. Es la que usan los controladores para todo: manejar el
+ * catálogo, personalizar servicios, armar paquetes, registrar solicitudes, consultar
+ * técnicos y calcular costos. Solo existe una instancia (Singleton) y se pide con
+ * getInstancia().
  */
+
 public class TechSolutions {
 
     private static TechSolutions instancia;

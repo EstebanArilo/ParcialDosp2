@@ -13,6 +13,11 @@ public abstract class Complemento implements Servicio {
         this.tipo = tipo;
     }
 
+    public Complemento(Servicio servicio, Servicio servicio1, TipoComplemento tipo) {
+        this.servicio = servicio1;
+        this.tipo = tipo;
+    }
+
     public TipoComplemento getTipoComplemento() { return tipo; }
 
     public static List<TipoComplemento> complementosDe(Servicio servicio) {

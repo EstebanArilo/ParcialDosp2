@@ -3,6 +3,10 @@ package uqvirutal.edu.co.parcialdosp2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Guarda las solicitudes en memoria. Permite agregarlas, buscarlas por código y
+ * eliminarlas. Es un Singleton, así que todo el programa comparte la misma lista.
+ */
 public class RepositorioSolicitudes {
 
     private static final RepositorioSolicitudes INSTANCIA =
@@ -31,9 +35,9 @@ public class RepositorioSolicitudes {
         return solicitudes;
     }
 
-    public Solicitud buscarPorCodigo(int codigo) {
+    public Solicitud buscarPorCodigo(String codigo) {
         for (Solicitud solicitud : solicitudes) {
-            if (solicitud.getCodigo() == codigo) {
+            if (solicitud.getCodigo().equals(codigo)) {
                 return solicitud;
             }
         }
@@ -41,8 +45,8 @@ public class RepositorioSolicitudes {
         return null;
     }
 
-    public boolean eliminarSolicitud(int codigo) {
+    public boolean eliminarSolicitud(String codigo) {
         return solicitudes.removeIf(
-                solicitud -> solicitud.getCodigo() == codigo);
+                solicitud -> solicitud.getCodigo().equals(codigo));
     }
 }

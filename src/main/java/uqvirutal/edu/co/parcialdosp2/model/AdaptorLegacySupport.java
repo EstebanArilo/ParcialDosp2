@@ -2,7 +2,7 @@ package uqvirutal.edu.co.parcialdosp2.model;
 
 import uqvirutal.edu.co.parcialdosp2.servicios.LegacySupport;
 
-public class AdaptadorLegacySupport implements ProveedorTecnicos {
+class AdaptadorLegacySupport implements ProveedorTecnicos {
 
     private final LegacySupport legacySupport;
 
