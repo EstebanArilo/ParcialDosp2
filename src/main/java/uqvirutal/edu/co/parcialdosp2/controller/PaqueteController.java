@@ -2,7 +2,9 @@ package uqvirutal.edu.co.parcialdosp2.controller;
 
 import uqvirutal.edu.co.parcialdosp2.model.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class PaqueteController {
 
@@ -30,5 +32,20 @@ public class PaqueteController {
             return paquete.getComponentes();
         }
         return new ArrayList<>();
+    }
+
+    public Resultado<Object> crearPaquete(String a, String s) {
+        return null;
+    }
+
+    public Resultado<Object> agregarComponente(PaqueteTecnologico a, PaqueteTecnologico a1) {
+        return null;
+    }
+
+    public Collection<Object> consultarComponentesDisponibles(PaqueteTecnologico a) {
+        return List.of();
+    }
+
+    public Map<Object, Object> consultarComponentes(PaqueteTecnologico a) {
     }
 }

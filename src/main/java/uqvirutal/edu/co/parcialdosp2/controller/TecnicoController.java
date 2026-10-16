@@ -34,4 +34,16 @@ public class TecnicoController {
         }
         return List.of();
     }
+
+    public boolean hayTecnicosDisponibles(boolean conTecnico) {
+        return conTecnico;
+    }
+
+    public int calcularCostoTotal(boolean conTecnico) {
+        return 0;
+    }
+
+    public Resultado<Object> confirmarSolicitud(boolean conTecnico) {
+        return null;
+    }
 }

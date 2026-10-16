@@ -2,6 +2,7 @@ package uqvirutal.edu.co.parcialdosp2.controller;
 
 import uqvirutal.edu.co.parcialdosp2.model.*;
 import java.util.List;
+import java.util.Map;
 
 public class SolicitudController {
 
@@ -29,5 +30,17 @@ public class SolicitudController {
 
     public List<Solicitud> obtenerSolicitudes() {
         return repositorio.getSolicitudes();
+    }
+
+    public <E> boolean registrarSolicitud(String laura, List<E> es, Object o, Object o1, Object o2) {
+        return false;
+    }
+
+    public Map<Object, Object> consultarSolicitudes() {
+        return Map.of();
+    }
+
+    public Map<Object, Object> consultarElementosContratables() {
+        return Map.of();
     }
 }

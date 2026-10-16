@@ -290,4 +290,8 @@ public class TechSolutions {
         }
         return total;
     }
+
+    public int[] consultarTiposComplemento() {
+        return new int[0];
+    }
 }
